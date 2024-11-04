@@ -35,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewSections;
     private SectionAdapter sectionAdapter;
     private List<Section> sectionList;
+    private Button adminPanelButton; // Кнопка для администратора
+
+    private static final String ADMIN_UID = "3xsIy76AbTPnrAV2evWvD2HcOnw1"; // UID администратора
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         logout_btn = findViewById(R.id.logout_btn);
+        adminPanelButton = findViewById(R.id.adminPanelButton); // Инициализируем кнопку
         mAuth = FirebaseAuth.getInstance();
         recyclerViewSections = findViewById(R.id.recyclerViewSections);
         recyclerViewSections.setLayoutManager(new LinearLayoutManager(this));
@@ -57,9 +62,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        checkAdminAccess();
+        adminPanelButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            startActivity(intent);
+        });
     }
-
+    private void checkAdminAccess() {
+        // Проверка UID текущего пользователя
+        String currentUserUid = mAuth.getCurrentUser().getUid();
+        if (ADMIN_UID.equals(currentUserUid)) {
+            adminPanelButton.setVisibility(View.VISIBLE); // Делаем кнопку видимой
+        }
+    }
     private void loadSections() {
         ref = FirebaseDatabase.getInstance().getReference("Sections");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {

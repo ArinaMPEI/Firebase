@@ -13,8 +13,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -52,14 +55,46 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         ref.child("Users").child(mAuth.getCurrentUser().getUid()).child("email").setValue(email_register.getText().toString());
                                         ref.child("Users").child(mAuth.getCurrentUser().getUid()).child("password").setValue(password_register.getText().toString());
-                                        Intent intent = new Intent (RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
+                                        String userId = mAuth.getCurrentUser().getUid();
+                                        // Добавляем нового пользователя в UserWords
+                                        initializeUserWords(userId);
+                                        //Intent intent = new Intent (RegisterActivity.this, MainActivity.class);
+                                        //  startActivity(intent);
                                     }else{
                                         Toast.makeText(RegisterActivity.this, "You have some errors", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                 }
+            }
+        });
+    }
+    private void initializeUserWords(String userId) {
+        DatabaseReference userWordsRef = FirebaseDatabase.getInstance().getReference("UserWords").child(userId);
+
+        // Получаем список всех разделов и их слов
+        DatabaseReference wordsRef = FirebaseDatabase.getInstance().getReference("Words");
+        wordsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sectionSnapshot : snapshot.getChildren()) {
+                    String sectionId = sectionSnapshot.getKey();
+                    for (DataSnapshot wordSnapshot : sectionSnapshot.getChildren()) {
+                        String wordId = wordSnapshot.getKey();
+                        // Добавляем слово с отметкой "не изучено"
+                        userWordsRef.child(sectionId).child(wordId).setValue(false);
+                    }
+                }
+                // Уведомляем пользователя об успешной регистрации и инициализации
+                Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Закрываем RegisterActivity
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Обработка ошибки
             }
         });
     }
