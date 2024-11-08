@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/background_color">
 
     <TextView
         android:id="@+id/word_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example Word"
+        android:text="@string/example_name"
         android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -19,7 +21,7 @@
         android:id="@+id/translation_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Translation"
+        android:text="@string/translation_name"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,11 +42,15 @@
         android:id="@+id/audio_button"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:src="@drawable/ic_media_play"
-        android:contentDescription="Play audio"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/description_play_name"
+        android:src="@drawable/play_icon"
         app:layout_constraintBottom_toBottomOf="@id/translation_text"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="TouchTargetSizeCheck"/>
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/translation_text"
+        app:layout_constraintTop_toTopOf="@id/translation_text"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

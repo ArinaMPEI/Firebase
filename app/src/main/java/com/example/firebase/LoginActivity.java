@@ -2,6 +2,8 @@ package com.example.firebase;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
@@ -35,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         register_txt = findViewById(R.id.register_txt);
 
         mAuth = FirebaseAuth.getInstance();
-
+        // Зафиксировать экран в портретной ориентации
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         register_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/background_color">
 
     <TextView
         android:id="@+id/welcome_text"
@@ -32,6 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/logout_name"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
     />
     <Button
@@ -40,6 +43,8 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_name"
         android:visibility="gone"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@id/logout_btn"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

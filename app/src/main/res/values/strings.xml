@@ -1,6 +1,27 @@
 <resources>
     <string name="app_name">Firebase</string>
+    <string name="new_app_name">Forit</string>
+    <string name="register_name">Зарегистрироваться</string>
+    <string name="pass_name">пароль</string>
+    <string name="email_name">email</string>
+    <string name="login_name">Войти</string>
+    <string name="create_acc_name">Создать аккаунт</string>
     <string name="welcome_name">Давайте учить слова!</string>
     <string name="logout_name">Выход</string>
     <string name="admin_name">Панель администратора</string>
+    <string name="enter_name">Введите слово</string>
+    <string name="enter_transl_name">Введите перевод</string>
+    <string name="enter_new_name">Добавить слово</string>
+    <string name="back_name">Назад</string>
+    <string name="start_name">Проверить знания</string>
+    <string name="words_name">список слов:</string>
+    <string name="percent_name">0%</string>
+    <string name="example_name">Example Word</string>
+    <string name="translation_name">Translation</string>
+    <string name="description_play_name">Play audio</string>
+    <string name="progress_name">Состояние: 0 из 0</string>
+    <string name="word_in_french_name">Слово на французском</string>
+    <string name="enter_translation_name">Введите перевод</string>
+    <string name="check_name">Проверить</string>
+    <string name="stop_name">К списку слов</string>
 </resources>

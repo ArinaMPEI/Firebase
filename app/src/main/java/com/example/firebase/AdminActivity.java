@@ -3,6 +3,7 @@ package com.example.firebase;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,15 @@ public class AdminActivity extends AppCompatActivity {
         editTextTranslation = findViewById(R.id.editTextTranslation);
         buttonAddWord = findViewById(R.id.buttonAddWord);
         sectionSpinner = findViewById(R.id.sectionSpinner);
+        // Восстановление состояния, если есть сохраненные данные
+        if (savedInstanceState != null) {
+            String word = savedInstanceState.getString("word", "");
+            String translation = savedInstanceState.getString("translation", "");
+            selectedSectionId = savedInstanceState.getString("selectedSectionId", null);
 
+            editTextWord.setText(word);
+            editTextTranslation.setText(translation);
+        }
         loadSections();
 
         sectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -74,7 +83,13 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("word", editTextWord.getText().toString());
+        outState.putString("translation", editTextTranslation.getText().toString());
+        outState.putString("selectedSectionId", selectedSectionId); // Сохраните также выбранный раздел
+    }
     private void loadSections() {
         DatabaseReference sectionsRef = FirebaseDatabase.getInstance().getReference("Sections");
         sectionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,22 +123,26 @@ public class AdminActivity extends AppCompatActivity {
 
     private void addWord(String sectionId, String word, String translation) {
         DatabaseReference wordsRef = FirebaseDatabase.getInstance().getReference("Words").child(sectionId);
-        String wordId = wordsRef.push().getKey(); // Генерируем уникальный ID для нового слова
+
+        // Используем французское слово как ключ
         Map<String, Object> wordData = new HashMap<>();
         wordData.put("word", word);
         wordData.put("translation", translation);
 
-        wordsRef.child(wordId).setValue(wordData).addOnCompleteListener(task -> {
+        wordsRef.child(word).setValue(wordData).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                updateUserWordsForNewWord(sectionId, wordId);
+                updateUserWordsForNewWord(sectionId, word);
                 Toast.makeText(AdminActivity.this, "Слово добавлено", Toast.LENGTH_SHORT).show();
+                // Очищаем поля ввода после успешного добавления
+                editTextWord.setText("");
+                editTextTranslation.setText("");
             } else {
                 Toast.makeText(AdminActivity.this, "Ошибка при добавлении слова", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void updateUserWordsForNewWord(String sectionId, String wordId) {
+    private void updateUserWordsForNewWord(String sectionId, String word) {
         DatabaseReference userWordsRef = FirebaseDatabase.getInstance().getReference("UserWords");
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -132,7 +151,7 @@ public class AdminActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String userId = userSnapshot.getKey();
-                    userWordsRef.child(userId).child(sectionId).child(wordId).setValue(false);
+                    userWordsRef.child(userId).child(sectionId).child(word).setValue(false);
                 }
             }
 
@@ -141,5 +160,11 @@ public class AdminActivity extends AppCompatActivity {
                 Log.e("AdminActivity", "Ошибка при обновлении слов пользователя: " + error.getMessage());
             }
         });
+    }
+    public void onBackButtonClicked(View view) {
+        Intent intent = new Intent(AdminActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish(); // Закрывает текущую AdminActivity
     }
 }

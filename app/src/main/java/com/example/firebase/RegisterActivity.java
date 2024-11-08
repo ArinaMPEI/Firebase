@@ -1,6 +1,7 @@
 package com.example.firebase;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference ref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,27 +44,35 @@ public class RegisterActivity extends AppCompatActivity {
         email_register = findViewById(R.id.email_register);
         password_register = findViewById(R.id.password_register);
         btn_register = findViewById(R.id.btn_register);
+        // Зафиксировать экран в портретной ориентации
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (email_register.getText().toString().isEmpty() || password_register.getText().toString().isEmpty()){
+                String email = email_register.getText().toString();
+                String password = password_register.getText().toString();
+
+                if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }else{
-                    mAuth.createUserWithEmailAndPassword(email_register.getText().toString(), password_register.getText().toString())
+                } else {
+                    // Хэшируем пароль перед сохранением
+                    String hashedPassword = hashPassword(password);
+
+                    mAuth.createUserWithEmailAndPassword(email, hashedPassword)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()){
-                                        ref.child("Users").child(mAuth.getCurrentUser().getUid()).child("email").setValue(email_register.getText().toString());
-                                        ref.child("Users").child(mAuth.getCurrentUser().getUid()).child("password").setValue(password_register.getText().toString());
+                                    if (task.isSuccessful()) {
+                                        ref.child("Users").child(mAuth.getCurrentUser().getUid())
+                                                .child("email").setValue(email);
+                                        ref.child("Users").child(mAuth.getCurrentUser().getUid())
+                                                .child("password").setValue(hashedPassword);
                                         String userId = mAuth.getCurrentUser().getUid();
                                         // Добавляем нового пользователя в UserWords
                                         initializeUserWords(userId);
-                                        //Intent intent = new Intent (RegisterActivity.this, MainActivity.class);
-                                        //  startActivity(intent);
-                                    }else{
-                                        Toast.makeText(RegisterActivity.this, "You have some errors", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -69,33 +80,49 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    private String hashPassword(String password) {
+        // Хэшируем пароль с использованием bcrypt
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
     private void initializeUserWords(String userId) {
         DatabaseReference userWordsRef = FirebaseDatabase.getInstance().getReference("UserWords").child(userId);
-
-        // Получаем список всех разделов и их слов
         DatabaseReference wordsRef = FirebaseDatabase.getInstance().getReference("Words");
-        wordsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot sectionSnapshot : snapshot.getChildren()) {
-                    String sectionId = sectionSnapshot.getKey();
-                    for (DataSnapshot wordSnapshot : sectionSnapshot.getChildren()) {
-                        String wordId = wordSnapshot.getKey();
-                        // Добавляем слово с отметкой "не изучено"
-                        userWordsRef.child(sectionId).child(wordId).setValue(false);
-                    }
-                }
-                // Уведомляем пользователя об успешной регистрации и инициализации
-                Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Закрываем RegisterActivity
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Обработка ошибки
+        // Очищаем старые данные для пользователя перед добавлением
+        userWordsRef.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Загружаем слова после успешного удаления старых данных
+                wordsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot sectionSnapshot : snapshot.getChildren()) {
+                            String sectionId = sectionSnapshot.getKey();
+                            for (DataSnapshot wordSnapshot : sectionSnapshot.getChildren()) {
+                                String frenchWord = wordSnapshot.child("word").getValue(String.class);
+                                // Проверяем, что французское слово не null
+                                if (frenchWord != null) {
+                                    // Используем французское слово как ключ для состояния изучения
+                                    userWordsRef.child(sectionId).child(frenchWord).setValue(false);
+                                }
+                            }
+                        }
+                        Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Обработка ошибки
+                    }
+                });
+            } else {
+                Toast.makeText(RegisterActivity.this, "Не удалось инициализировать слова", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 }

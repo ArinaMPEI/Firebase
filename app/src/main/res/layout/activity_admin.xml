@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background_color">
 
     <Spinner
         android:id="@+id/sectionSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editTextWord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите слово"
-        android:minHeight="48dp" />
+        android:hint="@string/enter_name"
+        android:minHeight="48dp"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editTextTranslation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите перевод"
+        android:hint="@string/enter_transl_name"
         android:minHeight="48dp" />
 
     <Button
         android:id="@+id/buttonAddWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Добавить слово" />
+        android:text="@string/enter_new_name"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@color/text_color"/>
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_name"
+        android:backgroundTint="@color/button_background"
+        android:textColor="@color/text_color"
+        android:layout_gravity="bottom|end"
+        android:onClick="onBackButtonClicked"/>
 </LinearLayout>
