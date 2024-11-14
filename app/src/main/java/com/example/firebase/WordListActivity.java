@@ -31,7 +31,7 @@ public class WordListActivity extends AppCompatActivity {
     private String sectionId;
     private TextView progressTextView;
     private Button buttonStartStudy;
-
+    private int progress = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +50,15 @@ public class WordListActivity extends AppCompatActivity {
         loadWords();
 
         buttonStartStudy.setOnClickListener(v -> {
-            Intent intent = new Intent(WordListActivity.this, StudyActivity.class);
-            intent.putExtra("section_id", sectionId);
-            startActivity(intent);
+            if (progress == 100) {
+                // Если все слова выучены, показываем Toast и не переходим в StudyActivity
+                Toast.makeText(WordListActivity.this, "Поздравляем, все слова выучены!", Toast.LENGTH_LONG).show();
+            } else {
+                // Если не все слова выучены, продолжаем переход в StudyActivity
+                Intent intent = new Intent(WordListActivity.this, StudyActivity.class);
+                intent.putExtra("section_id", sectionId);
+                startActivity(intent);
+            }
         });
     }
     @Override
@@ -79,7 +85,7 @@ public class WordListActivity extends AppCompatActivity {
                     }
                 }
 
-                int progress = totalCount > 0 ? (learnedCount * 100 / totalCount) : 0;
+                progress = totalCount > 0 ? (learnedCount * 100 / totalCount) : 0;
                 progressTextView.setText(progress + "%");
             }
 

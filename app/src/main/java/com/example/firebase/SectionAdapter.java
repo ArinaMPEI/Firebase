@@ -44,7 +44,12 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
             }
         });
     }
-
+    // Метод для обновления списка
+    public void updateSections(List<Section> newSections) {
+        sections.clear();
+        sections.addAll(newSections);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return sections.size(); //возвращает количество объектов в списке

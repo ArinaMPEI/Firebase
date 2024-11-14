@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // Хэшируем пароль перед сохранением
                     String hashedPassword = hashPassword(password);
 
-                    mAuth.createUserWithEmailAndPassword(email, hashedPassword)
+                    mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
