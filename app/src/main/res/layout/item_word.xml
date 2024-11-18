@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_color">
+    style="@style/SCREEN">
 
     <TextView
         android:id="@+id/word_text"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/example_name"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        style="@style/TEXT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -24,6 +24,7 @@
         android:text="@string/translation_name"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"
+        style="@style/TEXT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/word_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +45,7 @@
         android:layout_height="38dp"
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/description_play_name"
-        android:src="@drawable/play_icon"
+        android:src="@drawable/voice"
         app:layout_constraintBottom_toBottomOf="@id/translation_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

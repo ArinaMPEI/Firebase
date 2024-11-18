@@ -22,11 +22,13 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:hint="@string/email_name"
+            style="@style/ThemeLogin"
             android:minHeight="48dp" />
 
         <!-- Поле для ввода пароля -->
         <EditText
             android:id="@+id/password_login"
+            style="@style/ThemeLogin"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email_login"

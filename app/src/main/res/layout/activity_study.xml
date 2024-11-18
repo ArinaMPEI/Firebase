@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@color/background_color">
+    style="@style/SCREEN">
 
     <TextView
         android:id="@+id/textViewWordIndex"
@@ -12,6 +12,7 @@
         android:textSize="16sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        style="@style/TEXT"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -22,6 +23,7 @@
         android:textSize="20sp"
         android:layout_below="@id/textViewWordIndex"
         android:layout_centerHorizontal="true"
+        style="@style/TEXT"
         android:layout_marginTop="20dp" />
 
     <EditText
@@ -34,6 +36,7 @@
         android:layout_centerHorizontal="true"
         android:inputType="text"
         android:minHeight="48dp"
+        style="@style/TEXT"
         android:padding="10dp" />
 
     <Button
@@ -44,8 +47,7 @@
         android:layout_below="@id/editTextAnswer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/button_background"
-        android:textColor="@color/text_color"/>
+        style="@style/BUTTON"        />
     <Button
         android:id="@+id/buttonStopStudy"
         android:layout_width="wrap_content"
@@ -54,6 +56,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/button_background"
-        android:textColor="@color/text_color"/>
+        style="@style/BUTTON"/>
 </RelativeLayout>

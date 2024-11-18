@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/background_color">
+    style="@style/SCREEN">
 
     <Spinner
         android:id="@+id/sectionSpinner"
@@ -36,15 +36,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_new_name"
-        android:backgroundTint="@color/button_background"
-        android:textColor="@color/text_color"/>
+        style="@style/BUTTON"/>
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_name"
-        android:backgroundTint="@color/button_background"
-        android:textColor="@color/text_color"
+        style="@style/BUTTON"
         android:layout_gravity="bottom|end"
         android:onClick="onBackButtonClicked"/>
 </LinearLayout>

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Firebase" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Firebase" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -13,5 +13,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <!-- Button colors -->
+    </style>
+    <style name="SCREEN">
+        <item name="android:background">@color/SCREEN_color</item>
+    </style>
+    <!-- Texts background if dark mode on -->
+    <style name="TEXT">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- button background if dark mode on -->
+    <style name="BUTTON">
+        <item name="android:backgroundTint">@color/backgroundTint_color</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="ThemeLogin">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/hint_color</item>
     </style>
 </resources>

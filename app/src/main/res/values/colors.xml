@@ -9,7 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="backgroundRelative_color">#F1EDF7</color>
     <color name="background_color">#DFF0FA</color>
+    <color name="backnew">#D1EEFF</color>
     <color name="button_background">#5BA4E5</color>
     <color name="text_color">#FFFFFF</color>
     <color name="up_color">#F5D2A8</color>
+    <color name="hint_color">#424242</color>
+    <color name="backgroundTint_color">#BDBABA</color>
+    <color name="SCREEN_color">#232323</color>
 </resources>

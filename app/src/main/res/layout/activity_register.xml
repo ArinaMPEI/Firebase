@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/email_name"
+            style="@style/ThemeLogin"
             android:minHeight="48dp" />
 
         <EditText
@@ -33,6 +34,7 @@
             android:layout_marginBottom="12dp"
             android:hint="@string/pass_name"
             android:inputType="textPassword"
+            style="@style/ThemeLogin"
             android:minHeight="48dp" />
 
         <Button

@@ -14,4 +14,20 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/trebuchetms</item>
     </style>
+    <style name="SCREEN">
+        <item name="android:background">@color/background_color</item>
+    </style>
+    <!-- Texts background if light mode on -->
+    <style name="TEXT">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!-- button background if light mode on -->
+    <style name="BUTTON">
+        <item name="android:backgroundTint">@color/button_background</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+    <style name="ThemeLogin">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
 </resources>

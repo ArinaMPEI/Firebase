@@ -1,12 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    style="@style/SCREEN">
     <RelativeLayout
         android:id="@+id/myRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        style="@style/SCREEN"
         android:layout_marginTop="16dp">
         <Button
             android:id="@+id/buttonStartStudy"
@@ -14,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="15dp"
-            android:backgroundTint="@color/button_background"
+            style="@style/BUTTON"
             android:text="@string/start_name"/>
 
         <TextView
@@ -24,6 +25,7 @@
             android:layout_marginStart="5dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/buttonStartStudy"
+            style="@style/TEXT"
             android:text="@string/percent_name"/>
     </RelativeLayout>
 
@@ -35,6 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="@string/words_name"
+        style="@style/TEXT"
         android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -42,5 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/word_list_title"
+        style="@style/TEXT"
         android:layout_marginTop="8dp" />
 </RelativeLayout>
